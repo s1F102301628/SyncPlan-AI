@@ -16,7 +16,7 @@ React + Node.js + TypeScript で構成されたチーム実習開発用Webアプ
 node -v
 npm -v
 ```
-- インストールがされていない場合：Node.js公式"https://nodejs.org/ja/"からダウンロードする。
+- インストールがされていない場合：Node.js公式からダウンロードする。 https://nodejs.org/ja/
 
 - GitHubからレポジトリをクローンする。
 
