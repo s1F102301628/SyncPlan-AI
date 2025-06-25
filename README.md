@@ -26,6 +26,8 @@ npm -v
 ```bash
 cd frontend
 npm install
+npm install react-router-dom
+npm install --save-dev @types/react-router-dom
 cd ..  
 cd backend
 npm install
