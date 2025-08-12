@@ -1,0 +1,40 @@
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.destination-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.destination-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.destination-card h3 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.destination-card .location {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.destination-card .description {
+  color: #333;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.destination-card .rating {
+  color: #f39c12;
+  font-weight: bold;
+}

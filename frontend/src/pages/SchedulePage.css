@@ -1,0 +1,134 @@
+.schedule-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.schedule-sidebar {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  height: fit-content;
+}
+
+.schedule-sidebar h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.schedule-item {
+  background: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.schedule-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-item.active {
+  border-color: #007bff;
+  background: #e3f2fd;
+}
+
+.schedule-title {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.schedule-date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.add-schedule-btn {
+  width: 100%;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.add-schedule-btn:hover {
+  background: #1e7e34;
+}
+
+.schedule-detail {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.schedule-detail h2 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.timeline {
+  margin-top: 2rem;
+}
+
+.timeline-item {
+  display: flex;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 60px;
+  top: 60px;
+  width: 2px;
+  height: calc(100% + 1rem);
+  background: #e0e0e0;
+}
+
+.timeline-time {
+  background: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  width: 120px;
+  text-align: center;
+  margin-right: 2rem;
+  height: fit-content;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-content h4 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content .location {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content .duration {
+  color: #28a745;
+  font-size: 0.9rem;
+}
+
+.no-schedule {
+  text-align: center;
+  color: #666;
+  font-size: 1.2rem;
+  margin-top: 3rem;
+}
