@@ -1,18 +1,10 @@
-
-
-// function App() {
-//   return <AppRouter />;
-// }
-
-// export default App;
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar.tsx';
-import HomePage from './pages/HomePage.tsx';
-import DestinationList from './pages/DestinationList.tsx';
-import ChatPage from './pages/ChatPage.tsx';
-import SchedulePage from './pages/SchedulePage.tsx';
+import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
+import DestinationList from './pages/DestinationList';
+import ChatPage from './pages/ChatPage';
+import SchedulePage from './pages/SchedulePage';
 import './App.css';
 
 const App: React.FC = () => {
