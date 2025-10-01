@@ -1,101 +1,92 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from "react";
+
+type Sender = "user" | "ai";
 
 interface Message {
-  id: number;
-  content: string;
-  sender: 'user' | 'ai';
-  timestamp: Date;
+  sender: Sender;
+  text: string;
 }
 
-const ChatPage: React.FC = () => {
+
+export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      content: "こんにちは！旅行の計画についてお手伝いします。どこに行きたいですか？",
-      sender: 'ai',
-      timestamp: new Date()
-    }
+    { sender: "ai", text: "こんにちは！旅行の計画についてお手伝いします。どこに行きたいですか？" },
   ]);
-  const [inputMessage, setInputMessage] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  const sendMessage = async () => {
-    if (!inputMessage.trim()) return;
+  const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input.trim()) return;
 
-    const userMessage: Message = {
-      id: Date.now(),
-      content: inputMessage,
-      sender: 'user',
-      timestamp: new Date()
-    };
+    const newMessage: Message = { sender: "user", text: input };
+    const updateMessages = [...messages, newMessage];
+    setMessages(updateMessages);
+    setInput("");
 
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
-    setIsLoading(true);
+    try {
+      const history = updateMessages.map((m) => ({
+        role: m.sender === "user" ? "user" : "assistant",
+        content: [{ type: "text", text: m.text }],
+      }));
 
-    // シミュレートされたAI応答（実際のAPIに置き換え）
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: Date.now() + 1,
-        content: `「${inputMessage}」についてお答えします。具体的な旅行プランを作成するために、もう少し詳しい情報を教えてください。`,
-        sender: 'ai',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, aiResponse]);
-      setIsLoading(false);
-    }, 1500);
-  };
+      const res = await fetch("http://localhost:3000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: history }),
+      });
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
+      const data: { reply: string } = await res.json();
+
+      if (res.ok) {
+        setMessages((prev) => [...prev, { sender: "ai", text: data.reply }]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { sender: "ai", text: "⚠️ サーバーエラーだよ…" },
+        ]);
+      }
+    } catch (err) {
+      console.error(err);
+      setMessages((prev) => [
+        ...prev,
+        { sender: "ai", text: "⚠️ 接続できないみたい…😭" },
+      ]);
     }
   };
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <div className="page-container">
-      <h1>AI チャット</h1>
+      <h1>AIチャット</h1>
       <div className="chat-container">
-        <div className="chat-messages">
-          {messages.map((message) => (
-            <div 
-              key={message.id} 
-              className={`message ${message.sender === 'user' ? 'user-message' : 'ai-message'}`}
-            >
-              <div className="message-content">
-                {message.content}
-              </div>
-              <div className="message-timestamp">
-                {message.timestamp.toLocaleTimeString()}
-              </div>
+        {messages.map((msg, i) => (
+          <div key={i} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+            <div className={`message-content`}>
+              {msg.text}
             </div>
-          ))}
-          {isLoading && (
-            <div className="message ai-message">
-              <div className="message-content">考え中...</div>
-            </div>
-          )}
-        </div>
-        <div className="chat-input">
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="メッセージを入力してください..."
-            disabled={isLoading}
-          />
-          <button 
-            onClick={sendMessage}
-            disabled={isLoading || !inputMessage.trim()}
-          >
-            送信
-          </button>
-        </div>
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
       </div>
+      <form onSubmit={handleSend} className="chat-input">
+        <input
+          type="text"
+          value={input}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+          placeholder="メッセージを入力してください..."
+          className="flex-1 border border-gray-600 bg-black text-white rounded-l-md p-2 px-4 focus:outline-none focus:ring-2 focus:ring-pink-500"
+        />
+        <button
+          type="submit"
+          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-2 rounded-r-md hover:opacity-80 transition shadow-lg font-bold tracking-wide"
+        >
+          SEND
+        </button>
+      </form>
     </div>
   );
-};
-
-export default ChatPage;
+}
