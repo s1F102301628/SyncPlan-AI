@@ -7,12 +7,12 @@ import cors from "cors";
 import OpenAI from "openai";
 import { getAIReply } from "./openaiService";
 
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error("OPENAI_API_KEY is missing in .env");
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error("GEMINI_API_KEY is missing in .env");
 }
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.GEMINI_API_KEY,
 });
 
 const app = express();

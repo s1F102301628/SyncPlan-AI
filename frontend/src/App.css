@@ -17,9 +17,12 @@
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
   width: 100%;
-  min-height: calc(100vh - 200px);
+  
+  min-height: calc(100vh - 120px); 
+  
+  height: auto; 
+  
   box-sizing: border-box;
 }
 
@@ -344,13 +347,12 @@
 /* ChatPage Styles - Full width */
 .chat-container {
   height: calc(100vh - 300px);
-  min-height: 600px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   overflow: hidden;
-  width: 100%;
 }
 
 .chat-messages {
@@ -579,7 +581,7 @@
 @media (max-width: 1200px) {
   .main-content {
     max-width: 100%;
-    padding: 1rem;
+    padding: 0;
   }
   
   .navbar-container {
@@ -598,8 +600,8 @@
   }
   
   .page-container {
-    padding: 1rem;
-    margin-bottom: 1rem;
+    padding: 0;
+    width: 100%;
   }
   
   .navbar-container {
