@@ -48,6 +48,20 @@ const Navbar: React.FC = () => {
               スケジュール
             </Link>
           </li>
+          <li className="navbar-item">
+            <Link 
+              to="/login" 
+              className={`navbar-link ${isActive('/login') ? 'active' : ''}`}
+            >
+              ログイン
+            </Link>
+            <Link 
+              to="/register" 
+              className={`navbar-link ${isActive('/register') ? 'active' : ''}`}
+            >
+              会員登録
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

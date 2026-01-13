@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import './ChatPage.css';
 
 type Sender = "user" | "ai";
 
@@ -25,10 +27,28 @@ export default function Chat() {
     setInput("");
 
     try {
-      const history = updateMessages.map((m) => ({
-        role: m.sender === "user" ? "user" : "assistant",
-        content: [{ type: "text", text: m.text }],
-      }));
+      // 1. ここに指示文（systemMessage）を定義！
+      const systemMessage = {
+        role: "system",
+        content: [{ 
+          type: "text", 
+          text: `あなたは親しみやすくて優秀な旅行コンシェルジュです。
+          以下のルールを守って回答してください：
+          - ユーザーをワクワクさせるような明るい口調で話す（「～だよ！」「～だね！」）。
+          - 予算が少なめの人にも優しい、コスパの良いプランを提案する。
+          - 絵文字を適度に適度に使って親しみやすさを出す。
+          - 分からないことは調べてから答える。`
+        }],
+      };
+
+      // 2. 指示文を history の先頭に追加する
+      const history = [
+        systemMessage, // ← これを一番最初に入れるのがコツ！
+        ...updateMessages.map((m) => ({
+          role: m.sender === "user" ? "user" : "assistant",
+          content: [{ type: "text", text: m.text }],
+        })),
+      ];
 
       const res = await fetch("http://localhost:3000/chat", {
         method: "POST",
@@ -65,10 +85,16 @@ export default function Chat() {
       <div className="chat-container">
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`message-content`}>
-              {msg.text}
-            </div>
+            <div className="message-content">
+            {msg.sender === "ai" ? (
+              <div className="markdown-body">
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
+              </div>
+            ) : (
+              msg.text
+            )}
           </div>
+        </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
