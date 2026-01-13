@@ -1,16 +1,16 @@
 /* ChatPage.css */
 
 .chat-container {
-  /* --- 画面の高さの7割で固定 --- */
-  height: 70vh !important;
-  max-height: 70vh !important;
+  /* --- 画面の高さの6割で固定 --- */
+  height: 60vh !important;
+  max-height: 60vh !important;
   overflow-y: auto !important;
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background: linear-gradient(135deg, #fff5f7 0%, #f0f4ff 100%);
+  background: linear-gradient(135deg, var(--chat-bg-1) 0%, var(--chat-bg-2) 100%);
   gap: 15px;
-  border: 4px solid #ffdeeb;
+  border: 4px solid var(--accent-pink-weak);
   border-radius: 20px;
 }
 
@@ -34,8 +34,8 @@
 
 
 .justify-start .message-content {
-  background-color: #ffffff;
-  color: #555;
+  background-color: var(--card-bg);
+  color: var(--muted-2);
   border: 3px solid #b2f2bb;
   border-bottom-left-radius: 5px;
   margin-right: auto;
@@ -43,8 +43,8 @@
 
 
 .justify-end .message-content {
-  background: linear-gradient(135deg, #ff92ae 0%, #ff5d9e 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--accent-pink-2) 0%, var(--accent-pink) 100%);
+  color: var(--card-bg);
   border-bottom-right-radius: 5px;
   margin-left: auto;
   font-weight: bold;
@@ -60,15 +60,15 @@
 }
 
 .chat-input input {
-  border: 3px solid #ffdeeb !important;
+  border: 3px solid var(--accent-pink-weak) !important;
   border-radius: 30px !important;
   padding: 12px 20px !important;
-  background: white !important;
-  color: #333 !important;
+  background: var(--card-bg) !important;
+  color: var(--muted-2) !important;
 }
 
 .chat-input button {
-  background: #ff5d9e !important;
+  background: var(--accent-pink) !important;
   border-radius: 30px !important;
   font-weight: bold !important;
   letter-spacing: 1px !important;
@@ -77,8 +77,8 @@
 
 
 .markdown-body strong {
-  color: #ff5d9e;
-  background: linear-gradient(transparent 70%, #ffdeeb 70%); /* マーカー風 */
+  color: var(--accent-pink);
+  background: linear-gradient(transparent 70%, var(--accent-pink-weak) 70%); /* マーカー風 */
   font-weight: bold;
 }
 

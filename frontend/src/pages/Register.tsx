@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Login.css';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -12,9 +13,10 @@ const LoginPage: React.FC = () => {
   };
 
   return (
+    <div className='login-page'>
     <div className="page-container">
-      <h1>会員登録ページです！</h1>
       <div className="container">
+        <h1>会員登録ページです！</h1>
         <p>作業を続けるには、会員登録してください。</p>
         <p>ユーザー名</p>
         <input
@@ -47,6 +49,7 @@ const LoginPage: React.FC = () => {
         </button>
       </div>
     </div>
+  </div>
   );
 };
 

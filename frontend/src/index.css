@@ -7,6 +7,37 @@
   color: rgba(0, 0, 0, 0.87);
   background-color: #242424;
 
+  /* --- Theme color variables (shared across CSS) --- */
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-dark: #2c3e50;
+  --muted: #666666;
+  --muted-2: #555555;
+
+  --primary-1: #667eea;
+  --primary-2: #764ba2;
+
+  --secondary-1: #3498db;
+  --secondary-2: #2980b9;
+
+  --accent-pink: #ff5d9e;
+  --accent-pink-2: #ff92ae;
+  --accent-pink-weak: #ffdeeb;
+
+  --success-1: #27ae60;
+  --success-2: #20c997;
+
+  --brand-blue: #007bff;
+
+  --border: #e0e0e0;
+  --light-border: #f0f0f0;
+
+  --chat-bg-1: #fff5f7;
+  --chat-bg-2: #f0f4ff;
+
+  --info-bg: #e3f2fd;
+  --info-fg: #1976d2;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -63,6 +94,11 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
+
+    /* Light mode overrides (if needed) */
+    --bg: #ffffff;
+    --card-bg: #ffffff;
+    --text-dark: #213547;
   }
   a:hover {
     color: #747bff;

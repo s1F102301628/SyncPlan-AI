@@ -31,12 +31,12 @@
 }
 
 .schedule-sidebar {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, var(--bg) 0%, #e9ecef 100%);
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border);
 }
 
 .schedule-sidebar::-webkit-scrollbar {
@@ -69,7 +69,7 @@
 }
 
 .schedule-item {
-  background: white;
+  background: var(--card-bg);
   padding: 1.5rem;
   margin-bottom: 1rem;
   border-radius: 15px;
@@ -88,7 +88,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -103,10 +103,10 @@
 }
 
 .schedule-item.active {
-  border-color: #007bff;
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-color: var(--brand-blue);
+  background: linear-gradient(135deg, var(--info-bg) 0%, #bbdefb 100%);
   transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.12);
 }
 
 .schedule-item.active::before {
@@ -173,11 +173,11 @@
 }
 
 .schedule-detail {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 2.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border);
   overflow-y: auto;
 }
 
@@ -221,7 +221,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(to bottom, #007bff, #00d4aa);
+  background: linear-gradient(to bottom, var(--brand-blue), var(--success-2));
   border-radius: 2px;
 }
 
@@ -251,8 +251,8 @@
 }
 
 .timeline-time {
-  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--brand-blue) 0%, #0056b3 100%);
+  color: var(--card-bg);
   padding: 0.8rem 1.2rem;
   border-radius: 25px;
   font-weight: 700;

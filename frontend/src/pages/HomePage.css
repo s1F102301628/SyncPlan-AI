@@ -9,7 +9,7 @@
 
 .homepage-hero h1 {
   font-size: 3.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -38,7 +38,7 @@
 }
 
 .feature-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 3rem 2rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -66,7 +66,7 @@
 .feature-icon {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-1) 0%, var(--primary-2) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -77,14 +77,14 @@
 }
 
 .feature-card h3 {
-  color: #2c3e50;
+  color: var(--text-dark);
   font-size: 1.8rem;
   margin-bottom: 1rem;
   font-weight: 700;
 }
 
 .feature-card p {
-  color: white !important;
+  color: var(--card-bg) !important;
   line-height: 1.6;
   font-size: 1.1rem;
 }

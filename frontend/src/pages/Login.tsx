@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Login.css';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -12,6 +13,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
+    <div className='login-page'>
     <div className="page-container">
       <div className="container">
         <h1>ログイン</h1>
@@ -47,6 +49,7 @@ const LoginPage: React.FC = () => {
         </button>
       </div>
     </div>
+  </div>
   );
 };
 
