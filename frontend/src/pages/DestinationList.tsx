@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './DestinationList.css';
+import './DestinationList.css';  // CSS存在確認
 
 interface Destination {
   id: number;
@@ -10,6 +10,7 @@ interface Destination {
   features: string[];
   category: string;
   price?: string;
+  date?: string;
 }
 
 const DestinationList: React.FC = () => {
@@ -20,126 +21,90 @@ const DestinationList: React.FC = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
   useEffect(() => {
-    const sampleDestinations: Destination[] = [
-      { id: 1, name: "東京タワー", description: "東京のシンボル的な電波塔。夜景が美しいことで知られています。", location: "東京都港区", rating: 4.2, features: ["夜景", "展望台"], category: "観光スポット", price: "1,200円〜" },
-      { id: 2, name: "清水寺", description: "京都の歴史的な仏教寺院。「清水の舞台」で有名な本堂は圧巻です。", location: "京都府京都市", rating: 4.5, features: ["世界遺産", "歴史"], category: "文化・歴史", price: "400円" },
-      { id: 3, name: "富士山", description: "日本最高峰の美しい山。日本の象徴として世界中に知られています。", location: "静岡県・山梨県", rating: 4.8, features: ["自然", "絶景"], category: "自然", price: "1,000円" },
-      { id: 4, name: "沖縄美ら海水族館", description: "巨大な水槽でジンベエザメが泳ぐ姿を見ることができます。", location: "沖縄県本部町", rating: 4.6, features: ["水族館", "体験"], category: "レジャー", price: "2,180円" },
-      { id: 5, name: "金閣寺（鹿苑寺）", description: "金箔で覆われた美しい三層の楼閣。庭園も見どころです。", location: "京都府京都市", rating: 4.4, features: ["世界遺産", "写真スポット"], category: "文化・歴史", price: "500円" },
-      { id: 6, name: "ユニバーサル・スタジオ・ジャパン", description: "大阪にある人気のテーマパーク。映画の世界を体験できます。", location: "大阪府大阪市", rating: 4.3, features: ["テーマパーク", "グルメ"], category: "レジャー", price: "8,600円〜" }
-    ];
+    const fetchEvents = async () => {
+  try {
+    const keyword = searchTerm || 'イベント';  // 検索連動
+    const response = await fetch(`/api/events?nation=日本&keyword=${keyword}&limit=50`);
+    const apiEvents = await response.json();
+    console.log('全国イベント:', apiEvents);
 
-    setTimeout(() => {
-      setDestinations(sampleDestinations);
-      setFilteredDestinations(sampleDestinations);
-      setLoading(false);
-    }, 1000);
+    const destinations: Destination[] = apiEvents.map((event: any, index: number) => ({
+      id: index + 1,
+      name: event.title,
+      description: event.description,
+      location: event.location,
+      rating: 4.5,
+      features: [event.category || 'イベント'],
+      category: event.category || 'イベント',
+      price: event.price || '無料',
+      date: event.date
+    }));
+
+    setDestinations(destinations);
+    setFilteredDestinations(destinations);
+  } catch (error) {
+    console.error('エラー:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+    fetchEvents();
   }, []);
 
   useEffect(() => {
-    let filtered = destinations.filter(destination => {
-      const matchesSearch = destination.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          destination.location.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = categoryFilter === 'all' || destination.category === categoryFilter;
-      return matchesSearch && matchesCategory;
-    });
-    setFilteredDestinations(filtered);
-  }, [searchTerm, categoryFilter, destinations]);
-
-  const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating);
-    return '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
-  };
-
-  if (loading) {
-    return (
-      <div className="main-content">
-        <div className="loading-spinner">読み込み中...</div>
-      </div>
+    const filtered = destinations.filter(d => 
+      d.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      d.location.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }
+    setFilteredDestinations(filtered);
+  }, [searchTerm, destinations]);
+
+  const renderStars = (rating: number) => '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
+
+  if (loading) return <div style={{textAlign: 'center', padding: '50px'}}>読み込み中...</div>;
 
   return (
-    <div className="destinations-page-container">
-      <div className="destinations-header">
-        <h1>おすすめ観光地</h1>
-        <p>日本全国の魅力的な観光スポットをご紹介。あなたの次の旅の目的地を見つけてください。</p>
+    <div style={{maxWidth: '1200px', margin: '0 auto', padding: '20px'}}>
+      <h1 style={{textAlign: 'center', color: '#333'}}>埼玉県イベント一覧</h1>
+      <p style={{textAlign: 'center', color: '#666'}}>オープンデータ取得（全{filteredDestinations.length}件）</p>
+      
+      <div style={{marginBottom: '30px', display: 'flex', gap: '20px', justifyContent: 'center'}}>
+        <input
+          style={{padding: '10px', width: '300px', borderRadius: '5px', border: '1px solid #ddd'}}
+          placeholder="イベント名・場所で検索（例:川口）"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
-      <div className="destinations-filter">
-        <div className="filter-group">
-          <label>検索</label>
-          <input
-            type="text"
-            placeholder="観光地名や地域で検索..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className="filter-group">
-          <label>カテゴリー</label>
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-          >
-            <option value="all">すべて</option>
-            <option value="観光スポット">観光スポット</option>
-            <option value="文化・歴史">文化・歴史</option>
-            <option value="自然">自然</option>
-            <option value="レジャー">レジャー</option>
-          </select>
-        </div>
-        <button className="search-btn">検索</button>
-      </div>
-
-      <div className="destinations-grid">
+      <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '20px'}}>
         {filteredDestinations.map((destination) => (
-          <div key={destination.id} className="destination-card">
-            <div className="destination-image">
-              <div className="destination-badge">{destination.category}</div>
+          <div key={destination.id} style={{
+            border: '1px solid #ddd', borderRadius: '10px', padding: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+          }}>
+            <h3 style={{margin: '0 0 10px 0', color: '#紫'}}>{destination.name}</h3>  {/* 紫テーマ */}
+            <p style={{color: '#666', margin: '5px 0'}}><strong>場所:</strong> {destination.location}</p>
+            {destination.date && <p style={{color: '#666', margin: '5px 0'}}><strong>日時:</strong> {destination.date}</p>}
+            <p style={{margin: '10px 0'}}>{destination.description}</p>
+            <div style={{margin: '10px 0'}}>
+              {destination.features.map((f, i) => (
+                <span key={i} style={{
+                  display: 'inline-block', background: '#紫', color: 'white', padding: '5px 10px',
+                  margin: '5px 5px 5px 0', borderRadius: '20px', fontSize: '14px'
+                }}>{f}</span>
+              ))}
             </div>
-            <div className="destination-info">
-              <h3 className="destination-title">{destination.name}</h3>
-              <p className="destination-location">{destination.location}</p>
-              <p className="destination-description">{destination.description}</p>
-              <div className="destination-features">
-                {destination.features.map((feature, index) => (
-                  <span key={index} className="feature-tag">{feature}</span>
-                ))}
-              </div>
-              <div className="destination-footer">
-                <div className="destination-rating">
-                  <span className="stars">{renderStars(destination.rating)}</span>
-                  <span className="rating-text">{destination.rating}</span>
-                </div>
-                <button className="view-details-btn">詳細を見る</button>
-              </div>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px'}}>
+              <span style={{fontSize: '18px'}}>{renderStars(destination.rating)} {destination.rating}</span>
+              <span style={{color: '#紫', fontWeight: 'bold'}}>{destination.price}</span>
             </div>
           </div>
         ))}
       </div>
-
-      <div className="destinations-stats">
-        <h2>SyncPlan-AI 観光データ</h2>
-        <div className="stats-grid">
-          <div className="stat-item">
-            <span className="stat-number">{destinations.length}</span>
-            <span className="stat-label">観光地</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">47</span>
-            <span className="stat-label">都道府県</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">4.4</span>
-            <span className="stat-label">平均評価</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">1M+</span>
-            <span className="stat-label">年間利用者</span>
-          </div>
-        </div>
-      </div>
+      
+      {filteredDestinations.length === 0 && (
+        <p style={{textAlign: 'center', color: '#999', fontSize: '18px'}}>イベントが見つかりません。「埼玉」「川口」で検索試して！</p>
+      )}
     </div>
   );
 };
