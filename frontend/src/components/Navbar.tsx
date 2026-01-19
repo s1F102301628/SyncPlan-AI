@@ -62,6 +62,36 @@ const Navbar: React.FC = () => {
               会員登録
             </Link>
           </li>
+          <li className="navbar-item">
+            <button
+              className="navbar-link sync-button"
+              onClick={async () => {
+                const token = localStorage.getItem('app_token');
+                if (!token) {
+                  // start OAuth flow
+                  window.location.href = 'http://localhost:3000/auth/google';
+                  return;
+                }
+
+                try {
+                  const res = await fetch('http://localhost:3000/auth/youtube/liked', {
+                    headers: { Authorization: `Bearer ${token}` },
+                  });
+                  if (!res.ok) {
+                    const text = await res.text();
+                    alert('同期に失敗しました: ' + res.status + ' ' + text);
+                    return;
+                  }
+                  const data = await res.json();
+                  alert(`同期完了: ${data.videos?.length ?? 0} 件の動画を取得しました`);
+                } catch (err) {
+                  alert(err);
+                }
+              }}
+            >
+              YouTube 同期
+            </button>
+          </li>
         </ul>
       </div>
     </nav>

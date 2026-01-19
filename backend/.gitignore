@@ -1,2 +1,5 @@
 node_modules
+# Google OAuth
+backend/client_secret.json
+backend/tokens/
 .env

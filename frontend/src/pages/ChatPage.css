@@ -57,14 +57,37 @@
   gap: 10px;
   background: transparent;
   border: none;
+  align-items: stretch;
 }
-
-.chat-input input {
+.chat-input input,
+.chat-input textarea {
   border: 3px solid var(--accent-pink-weak) !important;
   border-radius: 30px !important;
   padding: 12px 20px !important;
   background: var(--card-bg) !important;
   color: var(--muted-2) !important;
+  resize: vertical;
+  min-height: 48px;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+/* テキストエリアはボタンと角を共有するため右側を直角にする */
+.chat-input textarea {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* 送信ボタンの左側の角を直角にして高さを揃える */
+.chat-input button {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  min-width: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
 }
 
 .chat-input button {
@@ -85,4 +108,44 @@
 .markdown-body ul {
   list-style-type: '✨';
   padding-left: 1.5rem;
+}
+
+/* ローディング時の小さな跳ねアニメーション */
+.message-content.loading {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-6px) scale(1.01); }
+  60% { transform: translateY(0); }
+  100% { transform: translateY(0); }
+}
+
+/* ポップでかわいいスクロールバー */
+.chat-container {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,130,180,0.9) transparent;
+}
+
+.chat-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff8ab1 0%, #b37bff 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(179,123,255,0.25);
+  border: 2px solid rgba(255,255,255,0.06);
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
 }
