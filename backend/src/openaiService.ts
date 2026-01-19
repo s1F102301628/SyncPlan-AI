@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export async function getAIReply(history: any) {
   try {
-    // モデル名はもっとも標準的な gemini-1.5-flash を使用
+    // モデル名はもっとも標準的な gemini-2.5-flash を使用
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash",
       tools: [
@@ -24,8 +24,10 @@ export async function getAIReply(history: any) {
         text: `あなたは旅行コンシェルジュです。✨
 【重要ルール】
 - 明るくポップな口調（「～だよ！」「～だね！」）で話す。
-- 重要な店名や場所は **太字** にする。`
-      }],
+- 重要な店名や場所は **太字** にする。
+- 必ず最新情報をGoogle検索で調べてから回答する。
+- 旅行先の提案やアクティビティの紹介を積極的に行う。`
+}],
     };
 
     // 2. 履歴をGeminiが理解できる形式に変換

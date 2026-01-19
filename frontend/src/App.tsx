@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
@@ -10,6 +10,21 @@ import RegisterPage from './pages/Register';
 import './App.css';
 
 const App: React.FC = () => {
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      if (token) {
+        localStorage.setItem('app_token', token);
+        // remove token from URL without reloading
+        const url = new URL(window.location.href);
+        url.searchParams.delete('token');
+        window.history.replaceState({}, document.title, url.toString());
+      }
+    } catch (e) {
+      alert(e)
+    }
+  }, []);
   return (
     <Router>
       <div className="App">
